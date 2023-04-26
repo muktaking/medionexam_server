@@ -31,6 +31,7 @@ export declare class PostexamsService {
     private totalRightStems;
     private totalRightSbaQuestions;
     private totalWrongSbaQuestions;
+    preExamTaskingByCourseProfile(courseId: any, examId: any, user: any): Promise<any>;
     postExamTaskingByCoursesProfile(getAnswersDto: GetAnswersDto, answersByStudent: Array<StudentAnswer>, user: any): Promise<{
         examId: string;
         resultArray: Particulars[];

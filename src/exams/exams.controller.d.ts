@@ -19,6 +19,7 @@ export declare class ExamsController {
             singleStemMark: any;
             penaltyMark: any;
             timeLimit: any;
+            type: any;
             isAnswerRestricted: boolean;
         };
         questions: any;

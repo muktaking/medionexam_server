@@ -47,6 +47,21 @@ let PostexamsService = class PostexamsService {
         this.totalRightSbaQuestions = 0;
         this.totalWrongSbaQuestions = 0;
     }
+    async preExamTaskingByCourseProfile(courseId, examId, user) {
+        const [examError, exam] = await (0, utils_1.to)(this.examService.findExamById(examId, null, null, null, true));
+        if (examError)
+            throw new common_1.HttpException('Problems at retriving Exam', common_1.HttpStatus.SERVICE_UNAVAILABLE);
+        const [courseError, course] = await (0, utils_1.to)(this.courseService.findCourseById(courseId));
+        if (courseError)
+            throw new common_1.HttpException('Problems at retriving Course', common_1.HttpStatus.SERVICE_UNAVAILABLE);
+        const [userExamProfileError, userExamProfileRes] = await (0, utils_1.to)(this.userExamProfileService.manipulateProfileAttemptStat(user, {
+            course,
+            exam
+        }));
+        if (userExamProfileError)
+            throw new common_1.InternalServerErrorException(userExamProfileError.message);
+        return userExamProfileRes;
+    }
     async postExamTaskingByCoursesProfile(getAnswersDto, answersByStudent, user) {
         const { examId, courseId, timeTakenToComplete, questionIdsByOrder } = getAnswersDto;
         const examActivityStat = this.examActivityStatRepository.create({

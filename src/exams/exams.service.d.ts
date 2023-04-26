@@ -55,6 +55,7 @@ export declare class ExamsService {
             singleStemMark: any;
             penaltyMark: any;
             timeLimit: any;
+            type: any;
             isAnswerRestricted: boolean;
         };
         questions: any;

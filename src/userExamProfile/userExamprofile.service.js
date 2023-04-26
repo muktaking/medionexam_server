@@ -120,6 +120,76 @@ let UserExamProfileService = class UserExamProfileService {
             throw new common_1.InternalServerErrorException();
         return result;
     }
+    async manipulateProfileAttemptStat(user, examData) {
+        const { course, exam } = examData;
+        let [profileError, profile] = await (0, utils_1.to)(this.findCourseBasedProfileByUserID(user.id));
+        if (profileError)
+            throw new common_1.HttpException('Problems at retriving Profile', common_1.HttpStatus.SERVICE_UNAVAILABLE);
+        const totalMark = Math.ceil(exam.singleQuestionMark * exam.questions.length);
+        let examProfile = this.userExamExamProfileRepository.create({
+            examId: +exam.id,
+            examTitle: exam.title,
+            examType: exam.type,
+            attemptNumbers: 1,
+            score: [],
+            totalMark,
+            firstAttemptTime: moment().format('YYYY-MM-DD HH:mm:ss'),
+            lastAttemptTime: moment().format('YYYY-MM-DD HH:mm:ss'),
+            examActivityStat: [],
+        });
+        let courseProfile = this.userExamCourseProfileRepository.create({
+            courseId: +course.id,
+            courseTitle: course.title,
+            totalMark,
+            totalScore: 0,
+            exams: [],
+        });
+        if (!profile) {
+            courseProfile.exams.push(examProfile);
+            profile = this.userExamProfileRepository.create({
+                id: +user.id,
+                courses: [],
+            });
+        }
+        else {
+            const [courseProfileExisted] = profile.courses.filter((cour) => cour.courseId === +course.id);
+            if (courseProfileExisted) {
+                const [examProfileExisted] = courseProfileExisted.exams.filter((examLocal) => examLocal.examId === +exam.id);
+                if (examProfileExisted) {
+                    examProfileExisted.attemptNumbers++;
+                    examProfileExisted.lastAttemptTime = moment().format('YYYY-MM-DD HH:mm:ss');
+                    const [error, result] = await (0, utils_1.to)(examProfileExisted.save());
+                    if (error)
+                        throw new common_1.InternalServerErrorException(error.message);
+                    return result;
+                }
+                else {
+                    courseProfileExisted.exams.push(examProfile);
+                    let [error, result] = await (0, utils_1.to)(examProfile.save());
+                    if (error)
+                        throw new common_1.InternalServerErrorException();
+                    [error, result] = await (0, utils_1.to)(courseProfileExisted.save());
+                    if (error)
+                        throw new common_1.InternalServerErrorException(error.message);
+                    return result;
+                }
+            }
+            else {
+                courseProfile.exams.push(examProfile);
+            }
+        }
+        profile.courses.push(courseProfile);
+        let [error, result] = await (0, utils_1.to)(examProfile.save());
+        if (error)
+            throw new common_1.InternalServerErrorException();
+        [error, result] = await (0, utils_1.to)(courseProfile.save());
+        if (error)
+            throw new common_1.InternalServerErrorException();
+        [error, result] = await (0, utils_1.to)(profile.save());
+        if (error)
+            throw new common_1.InternalServerErrorException();
+        return result;
+    }
     async findAllUserCourseProfilesByCourseId(courseId) {
         const [err, userCourseProfiles] = await (0, utils_1.to)(this.userExamCourseProfileRepository.find({
             where: { courseId: +courseId },

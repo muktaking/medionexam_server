@@ -9,6 +9,7 @@ export declare class UserExamProfileService {
     constructor(userExamProfileRepository: UserExamProfileRepository, userExamCourseProfileRepository: UserExamCourseProfileRepository, userExamExamProfileRepository: UserExamExamProfileRepository);
     findCourseBasedProfileByUserID(id: string): Promise<UserExamProfile>;
     manipulateProfile(user: any, examData: any): Promise<any>;
+    manipulateProfileAttemptStat(user: any, examData: any): Promise<any>;
     findAllUserCourseProfilesByCourseId(courseId: any): Promise<any>;
     findAllUserExamActivityStat(stuId?: number): Promise<any>;
     findAllUserExamActivityStatByCourseId(stuId: any, courseId: any): Promise<any>;

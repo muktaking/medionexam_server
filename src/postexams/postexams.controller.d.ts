@@ -13,6 +13,7 @@ export declare class PostexamsController {
         totalScorePercentage: number;
         timeTakenToComplete: string;
     }>;
+    preExamTasking(query: any, req: any): Promise<any>;
     postExamTaskingForFree(getFreeAnswersDto: GetFreeAnswersDto, answers: StudentAnswer[]): Promise<{
         examId: string;
         resultArray: import("./postexam.model").Particulars[];

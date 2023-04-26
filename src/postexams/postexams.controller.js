@@ -18,12 +18,17 @@ const passport_1 = require("@nestjs/passport");
 const get_answers_dto_1 = require("./dto/get-answers.dto");
 const answer_validation_pipe_1 = require("./pipe/answer-validation.pipe");
 const postexams_service_1 = require("./postexams.service");
+const roles_decorator_1 = require("../roles.decorator");
+const user_entity_1 = require("../users/user.entity");
 let PostexamsController = class PostexamsController {
     constructor(postexamsService) {
         this.postexamsService = postexamsService;
     }
     async postExamTasking(getAnswersDto, answers, req) {
         return await this.postexamsService.postExamTaskingByCoursesProfile(getAnswersDto, answers, req.user);
+    }
+    async preExamTasking(query, req) {
+        return await this.postexamsService.preExamTaskingByCourseProfile(query.courseId, query.examId, req.user);
     }
     async postExamTaskingForFree(getFreeAnswersDto, answers) {
         return await this.postexamsService.postExamTaskingForFree(getFreeAnswersDto, answers);
@@ -35,6 +40,7 @@ let PostexamsController = class PostexamsController {
 __decorate([
     (0, common_1.Post)(),
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
+    (0, roles_decorator_1.Role)(user_entity_1.RolePermitted.student),
     (0, common_1.UsePipes)(common_1.ValidationPipe),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Body)('answers', answer_validation_pipe_1.AnswerValidationPipe)),
@@ -43,6 +49,16 @@ __decorate([
     __metadata("design:paramtypes", [get_answers_dto_1.GetAnswersDto, Array, Object]),
     __metadata("design:returntype", Promise)
 ], PostexamsController.prototype, "postExamTasking", null);
+__decorate([
+    (0, common_1.Get)('preexamtasking'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
+    (0, roles_decorator_1.Role)(user_entity_1.RolePermitted.student),
+    __param(0, (0, common_1.Query)()),
+    __param(1, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], PostexamsController.prototype, "preExamTasking", null);
 __decorate([
     (0, common_1.Post)('free'),
     (0, common_1.UsePipes)(common_1.ValidationPipe),

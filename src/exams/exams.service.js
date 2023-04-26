@@ -770,6 +770,7 @@ let ExamsService = class ExamsService {
                     singleStemMark: exam.singleStemMark,
                     penaltyMark: exam.penaltyMark,
                     timeLimit: exam.timeLimit,
+                    type: exam.type,
                     isAnswerRestricted
                 },
                 questions: matrixQuestions.concat(sbaQuestions),
