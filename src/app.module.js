@@ -28,6 +28,9 @@ const routine_module_1 = require("./routine/routine.module");
 const typeorm_config_1 = require("./typeormconfig/typeorm.config");
 const userExamProfile_module_1 = require("./userExamProfile/userExamProfile.module");
 const users_module_1 = require("./users/users.module");
+const payment_controller_1 = require("./payment/payment.controller");
+const payment_module_1 = require("./payment/payment.module");
+const promotional_module_1 = require("./promotional/promotional.module");
 const { createLogger, format, transports } = require('winston');
 const { combine, timestamp, label, printf } = format;
 const myFormat = printf(({ level, message, label, timestamp }) => {
@@ -83,8 +86,10 @@ AppModule = __decorate([
             courses_module_1.CoursesModule,
             userExamProfile_module_1.UserExamProfileModule,
             notification_module_1.NotificationModule,
+            payment_module_1.PaymentModule,
+            promotional_module_1.PromotionalModule,
         ],
-        controllers: [courses_controller_1.CoursesController],
+        controllers: [courses_controller_1.CoursesController, payment_controller_1.PaymentController],
         providers: [bootstrapService_service_1.BootstrapService]
     })
 ], AppModule);
