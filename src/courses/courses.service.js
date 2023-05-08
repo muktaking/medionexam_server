@@ -347,17 +347,20 @@ let CoursesService = CoursesService_1 = class CoursesService {
         }));
         if (err2) {
             this.logger.error(err2.message, { label: CoursesService_1.name });
+            await this.courseRepository.delete(result.id);
             throw new common_1.InternalServerErrorException(err2.message);
         }
         exams.forEach(exam => {
+            delete exam.id;
             const { courseIds, courseType, startDate, endDate, createdAt, creatorId } = exam, rest = __rest(exam, ["courseIds", "courseType", "startDate", "endDate", "createdAt", "creatorId"]);
             const examUpdatedStartDate = moment(new Date(dupStartDate)).add(moment(new Date(exam.startDate)).diff(moment(new Date(courseInitialStartDate))), 'milliseconds').format('YYYY-MM-DD HH:mm:ss');
             const examUpdatedEndDate = moment(examUpdatedStartDate).add(moment(new Date(exam.endDate)).diff(moment(new Date(exam.startDate))), 'milliseconds').format('YYYY-MM-DD HH:mm:ss');
             duplicateExams.push(this.examRepository.create(Object.assign({ courseIds: result.id, courseType: [+courseId], startDate: examUpdatedStartDate, endDate: examUpdatedEndDate, createdAt: moment().format('YYYY-MM-DD HH:mm:ss'), creatorId: user.id }, rest)));
         });
-        const [err3, examsResult] = await (0, utils_1.to)(this.examRepository.save(duplicateExams));
+        const [err3, examsResult] = await (0, utils_1.to)(this.examRepository.insert(duplicateExams));
         if (err3) {
             this.logger.error(err3.message, { label: CoursesService_1.name });
+            await this.courseRepository.delete(result.id);
             throw new common_1.InternalServerErrorException(err3.message);
         }
         const [err4, routines] = await (0, utils_1.to)(this.routineRepository.find({
@@ -377,6 +380,8 @@ let CoursesService = CoursesService_1 = class CoursesService {
         const [err5, routinesResult] = await (0, utils_1.to)(this.routineRepository.insert(duplicateRoutines));
         if (err5) {
             this.logger.error(err5.message, { label: CoursesService_1.name });
+            await this.courseRepository.delete(result.id);
+            await this.examRepository.remove(examsResult);
             throw new common_1.InternalServerErrorException(err5.message);
         }
         await this.cacheManager.del('findAllCourses');

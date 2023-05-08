@@ -32,6 +32,7 @@ async function duplicateImageFile(imageUrl) {
     const dupPromise = new Promise((resolve, reject) => {
         const sourceFilePath = 'uploads/' + imageUrl;
         const destinationFilePath = sourceFilePath.slice(0, sourceFilePath.lastIndexOf('.')) + '_copy' + sourceFilePath.slice(sourceFilePath.lastIndexOf('.'));
+        const destinationImageUrl = imageUrl.slice(0, imageUrl.lastIndexOf('.')) + '_copy' + imageUrl.slice(imageUrl.lastIndexOf('.'));
         const readStream = fs.createReadStream(sourceFilePath);
         const writeStream = fs.createWriteStream(destinationFilePath);
         readStream.pipe(writeStream);
@@ -39,7 +40,7 @@ async function duplicateImageFile(imageUrl) {
             reject(err.message);
         });
         writeStream.on('finish', () => {
-            resolve(destinationFilePath);
+            resolve(destinationImageUrl);
         });
     });
     return dupPromise;
