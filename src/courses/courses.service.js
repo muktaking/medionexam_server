@@ -380,6 +380,7 @@ let CoursesService = CoursesService_1 = class CoursesService {
             throw new common_1.InternalServerErrorException(err5.message);
         }
         await this.cacheManager.del('findAllCourses');
+        await this.cacheManager.del('findLatestCourses');
         return { message: 'Successfuly Duplicated the course', data: result };
     }
     async updateCourseById(courseUpdated, id, imagePath) {
@@ -410,6 +411,7 @@ let CoursesService = CoursesService_1 = class CoursesService {
             throw new common_1.InternalServerErrorException(err1.message);
         }
         await this.cacheManager.del('findAllCourses');
+        await this.cacheManager.del('findLatestCourses');
         return { message: 'Successfuly Edited the course', data: result };
     }
     async deleteCourseById(id) {
@@ -451,6 +453,7 @@ let CoursesService = CoursesService_1 = class CoursesService {
             throw new common_1.InternalServerErrorException(error.message);
         }
         await this.cacheManager.del('findAllCourses');
+        await this.cacheManager.del('findLatestCourses');
         return { message: 'Successfuly deleted the course', data: result };
     }
     async enrollmentRequestedByStudent(courseId, stuId) {
