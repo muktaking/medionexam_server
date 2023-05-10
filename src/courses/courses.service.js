@@ -126,9 +126,10 @@ let CoursesService = CoursesService_1 = class CoursesService {
             if (pgCourseType && faculty) {
                 const [err, courses] = await (0, utils_1.to)(this.courseRepository.find({
                     where: [{ title: (0, typeorm_2.Like)('%' + search + '%'), pgCourseType: (0, typeorm_2.Equal)(pgCourseType), faculty: (0, typeorm_2.Equal)(faculty), endDate: (0, typeorm_2.MoreThanOrEqual)(new Date()) },
-                        { title: (0, typeorm_2.Like)('%' + search + '%'), pgCourseType: (0, typeorm_2.Equal)(course_entity_1.PgCourseType.All.toString()), faculty: (0, typeorm_2.Equal)(user_entity_1.Faculty.all.toString()), endDate: (0, typeorm_2.MoreThanOrEqual)(new Date()) },
-                        { description: (0, typeorm_2.Like)('%' + search + '%'), pgCourseType: (0, typeorm_2.Equal)(pgCourseType), faculty: (0, typeorm_2.Equal)(faculty), endDate: (0, typeorm_2.MoreThanOrEqual)(new Date()) },
-                        { description: (0, typeorm_2.Like)('%' + search + '%'), pgCourseType: (0, typeorm_2.Equal)(course_entity_1.PgCourseType.All.toString()), faculty: (0, typeorm_2.Equal)(user_entity_1.Faculty.all.toString()), endDate: (0, typeorm_2.MoreThanOrEqual)(new Date()) }],
+                        { title: (0, typeorm_2.Like)('%' + search + '%'), pgCourseType: (0, typeorm_2.Equal)(pgCourseType), faculty: (0, typeorm_2.Equal)(user_entity_1.Faculty.all.toString()), endDate: (0, typeorm_2.MoreThanOrEqual)(new Date()) },
+                        { title: (0, typeorm_2.Like)('%' + search + '%'), pgCourseType: (0, typeorm_2.Equal)(course_entity_1.PgCourseType.All.toString()), faculty: (0, typeorm_2.Equal)(faculty), endDate: (0, typeorm_2.MoreThanOrEqual)(new Date()) },
+                        { title: (0, typeorm_2.Like)('%' + search + '%'), pgCourseType: (0, typeorm_2.Equal)(course_entity_1.PgCourseType.All.toString()), faculty: (0, typeorm_2.Equal)(user_entity_1.Faculty.all.toString()), endDate: (0, typeorm_2.MoreThanOrEqual)(new Date()) }
+                    ],
                     order: { startDate: 'DESC' },
                 }));
                 if (err) {
@@ -142,9 +143,8 @@ let CoursesService = CoursesService_1 = class CoursesService {
             if (pgCourseType) {
                 const [err, courses] = await (0, utils_1.to)(this.courseRepository.find({
                     where: [{ title: (0, typeorm_2.Like)('%' + search + '%'), pgCourseType: (0, typeorm_2.Equal)(pgCourseType), endDate: (0, typeorm_2.MoreThanOrEqual)(new Date()) },
-                        { title: (0, typeorm_2.Like)('%' + search + '%'), pgCourseType: (0, typeorm_2.Equal)(course_entity_1.PgCourseType.All.toString()), endDate: (0, typeorm_2.MoreThanOrEqual)(new Date()) },
-                        { description: (0, typeorm_2.Like)('%' + search + '%'), pgCourseType: (0, typeorm_2.Equal)(pgCourseType), endDate: (0, typeorm_2.MoreThanOrEqual)(new Date()) },
-                        { description: (0, typeorm_2.Like)('%' + search + '%'), pgCourseType: (0, typeorm_2.Equal)(course_entity_1.PgCourseType.All.toString()), endDate: (0, typeorm_2.MoreThanOrEqual)(new Date()) }],
+                        { title: (0, typeorm_2.Like)('%' + search + '%'), pgCourseType: (0, typeorm_2.Equal)(course_entity_1.PgCourseType.All.toString()), endDate: (0, typeorm_2.MoreThanOrEqual)(new Date()) }
+                    ],
                     order: { startDate: 'DESC' },
                 }));
                 if (err) {
@@ -158,9 +158,8 @@ let CoursesService = CoursesService_1 = class CoursesService {
             if (faculty) {
                 const [err, courses] = await (0, utils_1.to)(this.courseRepository.find({
                     where: [{ title: (0, typeorm_2.Like)('%' + search + '%'), faculty: (0, typeorm_2.Equal)(faculty), endDate: (0, typeorm_2.MoreThanOrEqual)(new Date()) },
-                        { title: (0, typeorm_2.Like)('%' + search + '%'), faculty: (0, typeorm_2.Equal)(user_entity_1.Faculty.all.toString()), endDate: (0, typeorm_2.MoreThanOrEqual)(new Date()) },
-                        { description: (0, typeorm_2.Like)('%' + search + '%'), faculty: (0, typeorm_2.Equal)(faculty), endDate: (0, typeorm_2.MoreThanOrEqual)(new Date()) },
-                        { description: (0, typeorm_2.Like)('%' + search + '%'), faculty: (0, typeorm_2.Equal)(user_entity_1.Faculty.all.toString()), endDate: (0, typeorm_2.MoreThanOrEqual)(new Date()) }],
+                        { title: (0, typeorm_2.Like)('%' + search + '%'), faculty: (0, typeorm_2.Equal)(user_entity_1.Faculty.all.toString()), endDate: (0, typeorm_2.MoreThanOrEqual)(new Date()) }
+                    ],
                     order: { startDate: 'DESC' },
                 }));
                 if (err) {
@@ -183,7 +182,10 @@ let CoursesService = CoursesService_1 = class CoursesService {
         }
         if (pgCourseType && faculty) {
             const [err, courses] = await (0, utils_1.to)(this.courseRepository.find({
-                where: [{ pgCourseType: (0, typeorm_2.Equal)(pgCourseType), faculty: (0, typeorm_2.Equal)(faculty), endDate: (0, typeorm_2.MoreThanOrEqual)(new Date()) }, { pgCourseType: (0, typeorm_2.Equal)(course_entity_1.PgCourseType.All.toString()), faculty: (0, typeorm_2.Equal)(user_entity_1.Faculty.all.toString()), endDate: (0, typeorm_2.MoreThanOrEqual)(new Date()) }],
+                where: [{ pgCourseType: (0, typeorm_2.Equal)(pgCourseType), faculty: (0, typeorm_2.Equal)(faculty), endDate: (0, typeorm_2.MoreThanOrEqual)(new Date()) },
+                    { pgCourseType: (0, typeorm_2.Equal)(pgCourseType), faculty: (0, typeorm_2.Equal)(user_entity_1.Faculty.all.toString()), endDate: (0, typeorm_2.MoreThanOrEqual)(new Date()) },
+                    { pgCourseType: (0, typeorm_2.Equal)(course_entity_1.PgCourseType.All.toString()), faculty: (0, typeorm_2.Equal)(faculty), endDate: (0, typeorm_2.MoreThanOrEqual)(new Date()) },
+                    { pgCourseType: (0, typeorm_2.Equal)(course_entity_1.PgCourseType.All.toString()), faculty: (0, typeorm_2.Equal)(user_entity_1.Faculty.all.toString()), endDate: (0, typeorm_2.MoreThanOrEqual)(new Date()) }],
                 order: { startDate: 'DESC' },
             }));
             if (err) {
