@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 import { CategoryRepository } from 'src/categories/category.repository';
 import { User } from 'src/users/user.entity';
 import { CreateQuestionDto } from './create-question.dto';
@@ -5,9 +6,10 @@ import { Question } from './question.entity';
 import { QuestionRepository } from './question.repository';
 import { Stem } from './stem.entity';
 export declare class QuestionsService {
+    private readonly logger;
     private questionRepository;
     private categoryRepository;
-    constructor(questionRepository: QuestionRepository, categoryRepository: CategoryRepository);
+    constructor(logger: Logger, questionRepository: QuestionRepository, categoryRepository: CategoryRepository);
     findAllQuestions(): Promise<any>;
     findQuestionById(id: any): Promise<any>;
     findQuestionByFilter(filterName: any, filterValue: any): Promise<any>;
@@ -36,8 +38,9 @@ export declare class QuestionsService {
         creatorId: number;
         modifiedById: number;
     } & Question>;
-    deleteQuestion(...args: any[]): Promise<{
+    deleteQuestion(args: any): Promise<{
         message: string;
+        data: any;
     }>;
     private toCollection;
 }

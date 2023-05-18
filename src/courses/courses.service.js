@@ -37,6 +37,7 @@ const course_entity_1 = require("./course.entity");
 const course_repository_1 = require("./course.repository");
 const exam_repository_1 = require("../exams/exam.repository");
 const routine_repository_1 = require("../routine/routine.repository");
+const email_utils_1 = require("../utils/email.utils");
 let CoursesService = CoursesService_1 = class CoursesService {
     constructor(logger, cacheManager, courseRepository, userRepository, examRepository, routineRepository) {
         this.logger = logger;
@@ -505,6 +506,7 @@ let CoursesService = CoursesService_1 = class CoursesService {
             this.logger.error(err.message, { label: CoursesService_1.name });
             throw new common_1.InternalServerErrorException();
         }
+        (0, email_utils_1.emailBasic)('Course Enrollment Request By User', `<h3>Course Enrollment Request</h3><p>Id: <${stuId}> requested for course id: <${course.id}>.</p><p>Please check the payment and approve`);
         return {
             message: 'Your enrollment order is placed. Please wait for the admin approval.',
             data: result

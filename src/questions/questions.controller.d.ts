@@ -34,8 +34,10 @@ export declare class QuestionsController {
     } & import("./question.entity").Question>;
     deleteQuestionById(questionId: any): Promise<{
         message: string;
+        data: any;
     }>;
     deleteQuestion(questionIds: any): Promise<{
         message: string;
+        data: any;
     }>;
 }

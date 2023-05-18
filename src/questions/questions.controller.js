@@ -50,7 +50,7 @@ let QuestionsController = class QuestionsController {
         return await this.questionService.deleteQuestion(questionId.id);
     }
     async deleteQuestion(questionIds) {
-        return await this.questionService.deleteQuestion(...questionIds.ids);
+        return await this.questionService.deleteQuestion(questionIds.ids);
     }
 };
 __decorate([

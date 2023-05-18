@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var QuestionsService_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.QuestionsService = void 0;
 const common_1 = require("@nestjs/common");
@@ -26,8 +27,10 @@ const question_entity_1 = require("./question.entity");
 const question_repository_1 = require("./question.repository");
 const stem_entity_1 = require("./stem.entity");
 const moment = require("moment");
-let QuestionsService = class QuestionsService {
-    constructor(questionRepository, categoryRepository) {
+const nest_winston_1 = require("nest-winston");
+let QuestionsService = QuestionsService_1 = class QuestionsService {
+    constructor(logger, questionRepository, categoryRepository) {
+        this.logger = logger;
         this.questionRepository = questionRepository;
         this.categoryRepository = categoryRepository;
     }
@@ -167,9 +170,13 @@ let QuestionsService = class QuestionsService {
         await this.questionRepository.delete(+id);
         return await this.questionRepository.save(newQuestion);
     }
-    async deleteQuestion(...args) {
-        const res = await this.questionRepository.delete(args);
-        return { message: 'Question deleted successfully' };
+    async deleteQuestion(args) {
+        const [error, res] = await (0, utils_1.to)(this.questionRepository.delete(args.trim().split(',')));
+        if (error) {
+            this.logger.error(error.message, { label: QuestionsService_1.name });
+            throw new common_1.InternalServerErrorException(error.message);
+        }
+        return { message: 'Question deleted successfully', data: res };
     }
     toCollection(data, category, user) {
         const allData = [];
@@ -244,11 +251,13 @@ let QuestionsService = class QuestionsService {
         };
     }
 };
-QuestionsService = __decorate([
+QuestionsService = QuestionsService_1 = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(question_repository_1.QuestionRepository)),
-    __param(1, (0, typeorm_1.InjectRepository)(category_repository_1.CategoryRepository)),
-    __metadata("design:paramtypes", [question_repository_1.QuestionRepository,
+    __param(0, (0, common_1.Inject)(nest_winston_1.WINSTON_MODULE_PROVIDER)),
+    __param(1, (0, typeorm_1.InjectRepository)(question_repository_1.QuestionRepository)),
+    __param(2, (0, typeorm_1.InjectRepository)(category_repository_1.CategoryRepository)),
+    __metadata("design:paramtypes", [common_1.Logger,
+        question_repository_1.QuestionRepository,
         category_repository_1.CategoryRepository])
 ], QuestionsService);
 exports.QuestionsService = QuestionsService;

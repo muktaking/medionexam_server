@@ -832,7 +832,7 @@ let ExamsService = class ExamsService {
                 where: { id: (0, typeorm_2.In)(exam.questions.map((e) => +e)) },
             }));
             if (err)
-                throw new common_1.InternalServerErrorException();
+                throw new common_1.InternalServerErrorException(err.message);
             questions.map((question) => {
                 question.stems.map((stem, index) => {
                     question.stems[index] = stem.qStem;
