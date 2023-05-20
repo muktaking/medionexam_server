@@ -33,8 +33,8 @@ let PostexamsController = class PostexamsController {
     async postExamTaskingForFree(getFreeAnswersDto, answers) {
         return await this.postexamsService.postExamTaskingForFree(getFreeAnswersDto, answers);
     }
-    async examRankByIdForGuest(data) {
-        return await this.postexamsService.examRankByIdConstrainByCourseId(data.id, data.courseId);
+    async examRankById(data, req) {
+        return await this.postexamsService.examRankByIdConstrainByCourseId(data.id, data.courseId, req.user);
     }
 };
 __decorate([
@@ -73,10 +73,11 @@ __decorate([
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)("jwt")),
     (0, common_1.UsePipes)(common_1.ValidationPipe),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
-], PostexamsController.prototype, "examRankByIdForGuest", null);
+], PostexamsController.prototype, "examRankById", null);
 PostexamsController = __decorate([
     (0, common_1.Controller)('postexams'),
     __metadata("design:paramtypes", [postexams_service_1.PostexamsService])

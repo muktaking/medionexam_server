@@ -51,7 +51,7 @@ export declare class PostexamsService {
         timeTakenToComplete: string;
     }>;
     private answersExtractor;
-    examRankByIdConstrainByCourseId(examId: string, courseId: string): Promise<{
+    examRankByIdConstrainByCourseId(examId: string, courseId: string, currentUser: any): Promise<{
         exam: any;
         rank: any[];
     }>;

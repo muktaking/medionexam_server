@@ -208,7 +208,7 @@ let PostexamsService = class PostexamsService {
             return stem.aStem;
         });
     }
-    async examRankByIdConstrainByCourseId(examId, courseId) {
+    async examRankByIdConstrainByCourseId(examId, courseId, currentUser) {
         let rankProfiles = [];
         const [error, courseProfiles] = await (0, utils_1.to)(this.userExamProfileService.findAllUserCourseProfilesByCourseId(courseId));
         if (error)
@@ -222,14 +222,15 @@ let PostexamsService = class PostexamsService {
                 const [nameError, user] = await (0, utils_1.to)(this.usersService.findOneUserById(courseProfile.userExamProfile.id, true));
                 if (nameError)
                     throw new common_1.InternalServerErrorException(nameError);
+                user.name = (currentUser.id === user.id) ? (user.firstName + " " + user.lastName) : ('*** ' + user.lastName);
                 if (examProfile) {
                     rankProfiles.push({
                         user: user,
                         exam: [
                             {
-                                score: examProfile.score[0],
+                                score: parseFloat(examProfile.score[0]).toFixed(2),
                                 attempts: examProfile.attemptNumbers,
-                                totalMark: examProfile.totalMark,
+                                totalMark: examProfile.totalMark.toFixed(2),
                             },
                         ],
                     });

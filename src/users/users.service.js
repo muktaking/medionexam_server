@@ -198,7 +198,7 @@ let UsersService = class UsersService {
                 throw new common_1.InternalServerErrorException();
             if (user == null)
                 return;
-            return { name: user.firstName + ' ' + user.lastName, id: user.id };
+            return { firstName: user.firstName, lastName: user.lastName, id: user.id };
         }
         if (isForAuth) {
             const [err, user] = await (0, utils_1.to)(this.userRepository.findOne({ id: +id }, { select: ['id', 'email', 'password', 'role'] }));
