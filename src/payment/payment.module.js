@@ -12,11 +12,20 @@ const payment_service_1 = require("./payment.service");
 const payment_repository_1 = require("./payment.repository");
 const payment_controller_1 = require("./payment.controller");
 const typeorm_1 = require("@nestjs/typeorm");
+const axios_1 = require("@nestjs/axios");
+const course_repository_1 = require("../courses/course.repository");
+const paymentRefund_repository_1 = require("./paymentRefund.repository");
 let PaymentModule = class PaymentModule {
 };
 PaymentModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([payment_repository_1.PaymentRepository])],
+        imports: [typeorm_1.TypeOrmModule.forFeature([payment_repository_1.PaymentRepository, paymentRefund_repository_1.PaymentRefundRepository, course_repository_1.CourseRepository]), axios_1.HttpModule.register({
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                baseURL: 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/'
+            })],
         controllers: [payment_controller_1.PaymentController],
         providers: [payment_service_1.PaymentService],
         exports: [payment_service_1.PaymentService]

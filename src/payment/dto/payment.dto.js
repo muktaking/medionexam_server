@@ -30,21 +30,6 @@ __decorate([
 ], CreatePaymentDto.prototype, "productId", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsNumberString)(),
-    __metadata("design:type", String)
-], CreatePaymentDto.prototype, "senderMobile", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsAlphanumeric)(),
-    __metadata("design:type", String)
-], CreatePaymentDto.prototype, "txId", void 0);
-__decorate([
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsNumberString)(),
-    __metadata("design:type", String)
-], CreatePaymentDto.prototype, "paymentAmount", void 0);
-__decorate([
-    (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsEnum)([
         payment_entity_1.PaymentGateway.Bkash.toString(),
         payment_entity_1.PaymentGateway.Nagad.toString(),

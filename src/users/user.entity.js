@@ -134,6 +134,10 @@ __decorate([
     (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", accessRight_entity_1.AccessRight)
 ], User.prototype, "accessRight", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'simple-array', nullable: true }),
+    __metadata("design:type", Array)
+], User.prototype, "agreementId", void 0);
 User = __decorate([
     (0, typeorm_1.Entity)()
 ], User);

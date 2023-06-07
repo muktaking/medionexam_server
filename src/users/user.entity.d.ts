@@ -51,4 +51,5 @@ export declare class User extends BaseEntity {
     resetToken: string;
     resetTokenExpiration: Timestamp;
     accessRight: AccessRight;
+    agreementId: string[];
 }

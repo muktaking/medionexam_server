@@ -24,9 +24,6 @@ let PaymentController = class PaymentController {
     constructor(paymentService) {
         this.paymentService = paymentService;
     }
-    async createPaymentByManualMethodRecords(createPaymentDto, req) {
-        return await this.paymentService.createPaymentByManualMethodRecords(createPaymentDto, req.user);
-    }
     async getPaymentByManualMethodRecords(query) {
         if (!query) {
             return await this.paymentService.getPaymentByManualMethodRecords(query);
@@ -38,18 +35,28 @@ let PaymentController = class PaymentController {
             return await this.paymentService.getPaymentByManualMethodRecords(query.userId);
         }
     }
+    async makePaymentByBkash() {
+        return await this.paymentService.bkashPgwGrantTokenRequest();
+    }
+    async createPaymentByBkash(createPaymentDto, req) {
+        return await this.paymentService.bkashCreatePayment(createPaymentDto, req.user);
+    }
+    async executePaymentByBkash(param) {
+        return await this.paymentService.bkashExecutePayment(param.paymentId);
+    }
+    async queryPaymentByBkash(param) {
+        return await this.paymentService.bkashQueryPayment(param.paymentId);
+    }
+    async FailedPaymentByBkash(param) {
+        return await this.paymentService.bkashPaymentFailure(param.paymentId, param.status);
+    }
+    async PaymentRefundTransactionByBkash(param) {
+        return await this.paymentService.bkashPaymentRefundTransaction(param);
+    }
+    async PaymentRefundGetOne(param) {
+        return await this.paymentService.bkashPaymentRefundFindOne(param.paymentId);
+    }
 };
-__decorate([
-    (0, common_1.Post)('manual'),
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt'), roles_guard_1.RolesGuard),
-    (0, roles_decorator_1.Role)(user_entity_1.RolePermitted.student),
-    (0, common_1.UsePipes)(common_1.ValidationPipe),
-    __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Req)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [payment_dto_1.CreatePaymentDto, Object]),
-    __metadata("design:returntype", Promise)
-], PaymentController.prototype, "createPaymentByManualMethodRecords", null);
 __decorate([
     (0, common_1.Get)(),
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt'), roles_guard_1.RolesGuard),
@@ -60,6 +67,69 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], PaymentController.prototype, "getPaymentByManualMethodRecords", null);
+__decorate([
+    (0, common_1.Post)('/bkash/token/grant'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt'), roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Role)(user_entity_1.RolePermitted.student),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], PaymentController.prototype, "makePaymentByBkash", null);
+__decorate([
+    (0, common_1.Post)('/bkash/create'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt'), roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Role)(user_entity_1.RolePermitted.student),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [payment_dto_1.CreatePaymentDto, Object]),
+    __metadata("design:returntype", Promise)
+], PaymentController.prototype, "createPaymentByBkash", null);
+__decorate([
+    (0, common_1.Post)('/bkash/execute/:paymentId'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt'), roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Role)(user_entity_1.RolePermitted.student),
+    __param(0, (0, common_1.Param)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], PaymentController.prototype, "executePaymentByBkash", null);
+__decorate([
+    (0, common_1.Post)('/bkash/status/:paymentId'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt'), roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Role)(user_entity_1.RolePermitted.coordinator),
+    __param(0, (0, common_1.Param)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], PaymentController.prototype, "queryPaymentByBkash", null);
+__decorate([
+    (0, common_1.Post)('/bkash/failure/:paymentId'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt'), roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Role)(user_entity_1.RolePermitted.student),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], PaymentController.prototype, "FailedPaymentByBkash", null);
+__decorate([
+    (0, common_1.Post)('/bkash/refund/:paymentId'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt'), roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Role)(user_entity_1.RolePermitted.coordinator),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], PaymentController.prototype, "PaymentRefundTransactionByBkash", null);
+__decorate([
+    (0, common_1.Get)('/bkash/refund/:paymentId'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt'), roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Role)(user_entity_1.RolePermitted.coordinator),
+    __param(0, (0, common_1.Param)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], PaymentController.prototype, "PaymentRefundGetOne", null);
 PaymentController = __decorate([
     (0, common_1.Controller)('payment'),
     __metadata("design:paramtypes", [payment_service_1.PaymentService])
