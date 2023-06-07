@@ -15,6 +15,8 @@ const typeorm_1 = require("@nestjs/typeorm");
 const axios_1 = require("@nestjs/axios");
 const course_repository_1 = require("../courses/course.repository");
 const paymentRefund_repository_1 = require("./paymentRefund.repository");
+const config = require("config");
+const bkashConfig = config.get('bkash');
 let PaymentModule = class PaymentModule {
 };
 PaymentModule = __decorate([
@@ -24,7 +26,7 @@ PaymentModule = __decorate([
                     "Content-Type": "application/json",
                     "Accept": "application/json"
                 },
-                baseURL: 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/'
+                baseURL: bkashConfig.baseUrl
             })],
         controllers: [payment_controller_1.PaymentController],
         providers: [payment_service_1.PaymentService],
