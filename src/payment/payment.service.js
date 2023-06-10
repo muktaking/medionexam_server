@@ -65,7 +65,6 @@ let PaymentService = PaymentService_1 = class PaymentService {
             app_secret: bkashConfig.app_secret
         };
         const { data } = await (0, rxjs_1.firstValueFrom)(this.httpService.post('token/grant', bodyData, { headers }).pipe((0, rxjs_1.catchError)((error) => {
-            console.log(error);
             this.logger.error(error.message, { label: PaymentService_1.name });
             throw new common_1.InternalServerErrorException('Grant Token could not be retrieved from Bkash.');
         })));

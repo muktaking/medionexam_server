@@ -17,7 +17,6 @@ exports.QuestionsService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const fs = require("fs");
-const _ = require("lodash");
 const category_repository_1 = require("../categories/category.repository");
 const user_entity_1 = require("../users/user.entity");
 const utils_1 = require("../utils/utils");
@@ -241,7 +240,7 @@ let QuestionsService = QuestionsService_1 = class QuestionsService {
                 qText: element[2],
                 stems: stems,
                 generalFeedback: element[18],
-                tags: _.words(element[19]).toString(),
+                tags: element[19],
             });
         });
         return {
