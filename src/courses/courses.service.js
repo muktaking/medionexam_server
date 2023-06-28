@@ -172,7 +172,7 @@ let CoursesService = CoursesService_1 = class CoursesService {
                 return courses;
             }
             const [err, courses] = await (0, utils_1.to)(this.courseRepository.find({
-                where: [{ title: (0, typeorm_2.Like)('%' + search + '%'), endDate: (0, typeorm_2.MoreThanOrEqual)(new Date()) }, { description: (0, typeorm_2.Like)('%' + search + '%'), endDate: (0, typeorm_2.MoreThanOrEqual)(new Date()) }],
+                where: [{ title: (0, typeorm_2.Like)('%' + search + '%'), endDate: (0, typeorm_2.MoreThanOrEqual)(new Date()) }],
                 order: { startDate: 'DESC' },
             }));
             if (err) {
