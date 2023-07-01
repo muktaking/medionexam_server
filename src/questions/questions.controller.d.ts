@@ -5,7 +5,9 @@ export declare class QuestionsController {
     private readonly questionService;
     constructor(questionService: QuestionsService);
     getAllQuestions(): Promise<any>;
-    getQuestionById(id: any): Promise<any>;
+    getQuestionById(id: {
+        id: string;
+    }): Promise<any>;
     getQuestionsByCategory(categoryId: any): Promise<any>;
     createQuestion(createQuestionDto: CreateQuestionDto, stem: {
         stem: Stem[];

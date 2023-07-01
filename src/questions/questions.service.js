@@ -41,11 +41,23 @@ let QuestionsService = QuestionsService_1 = class QuestionsService {
         return questions;
     }
     async findQuestionById(id) {
-        const [err, question] = await (0, utils_1.to)(this.questionRepository.findOne(+id));
-        console.log(err);
-        if (err)
-            throw new common_1.InternalServerErrorException();
-        return question;
+        if (!id.includes(',')) {
+            const [err, question] = await (0, utils_1.to)(this.questionRepository.findOne(+id));
+            if (err) {
+                this.logger.error(err.message);
+                this.logger.debug(err);
+                throw new common_1.InternalServerErrorException(err.message);
+            }
+            return question;
+        }
+        const questionIds = id.split(',');
+        const [err, questions] = await (0, utils_1.to)(this.questionRepository.findByIds(questionIds));
+        if (err) {
+            this.logger.error(err.message);
+            this.logger.debug(err);
+            throw new common_1.InternalServerErrorException(err.message);
+        }
+        return questions;
     }
     async findQuestionByFilter(filterName, filterValue) {
         if (filterName === 'categoryId') {

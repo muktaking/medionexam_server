@@ -11,7 +11,7 @@ export declare class QuestionsService {
     private categoryRepository;
     constructor(logger: Logger, questionRepository: QuestionRepository, categoryRepository: CategoryRepository);
     findAllQuestions(): Promise<any>;
-    findQuestionById(id: any): Promise<any>;
+    findQuestionById(id: string): Promise<any>;
     findQuestionByFilter(filterName: any, filterValue: any): Promise<any>;
     createQuestion(createQuestionDto: CreateQuestionDto, stem: {
         stem: Stem[];
