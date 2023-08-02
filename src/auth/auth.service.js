@@ -300,6 +300,7 @@ let AuthService = AuthService_1 = class AuthService {
                     }),
                     id: user.id,
                     expireIn: process.env.JWT_EXPIRESIN || jwtConfig.expiresIn,
+                    avatar: picture
                 };
                 return obj;
             }
